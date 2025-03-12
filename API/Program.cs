@@ -12,9 +12,14 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(opt => {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+//in case the CORS policy blocks the request
+builder.Services.AddCors();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+//allow the request if the request is originated from Angular application running on 4200
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+    .WithOrigins("http://localhost:4200","https://localhost:4200"));
 app.MapControllers();
 app.Run();
