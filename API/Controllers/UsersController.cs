@@ -1,28 +1,35 @@
 using System;
-using API.Data;
-using API.Entities;
+using API.Data; //contains the DataContext class (DbContext)
+using API.Entities; //contains the API user entity class
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore; //provides functionalities for building API controllers
 
 namespace API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")] //when on localhost://5001/api/user, will redirect to UserController
+[ApiController] 
+[Route("api/[controller]")] //sets the route to api/users
+
+//injecting the DataContext service to allow Database access 
 public class UsersController(DataContext context): ControllerBase
 {
+    //fetch all users
+    //[HttpGet]: Maps this method to an HTTP GET request at api/users.
     [HttpGet]
-    public ActionResult<IEnumerable<AppUser>> GetUsers()
+    public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
     {
-        var users = context.Users.ToList();
-        return users;
+        var users = await context.Users.ToListAsync();//retreives all the users from the Users table
+        return users; //returning a list of app user objects
     }
 
-    [HttpGet("{id:int}")] //to get an individual user
-    public ActionResult<AppUser> GetUser(int id)
+    //fetching a single user
+    [HttpGet("{id:int}")] 
+    public async Task<ActionResult<AppUser>> GetUser(int id)
     {
-        var user = context.Users.Find(id);
-        //if the user is null return NotFound
+        //finding user using id (primary key)
+        var user = await context.Users.FindAsync(id);
+        //if when the user is not found, return 404 NotFound 
         if(user == null) return NotFound();
-        //user can not be null here
+        //else return the 200 OK HttpResponse
         return user;
     }
 }
