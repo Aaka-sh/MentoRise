@@ -6,11 +6,8 @@ using Microsoft.EntityFrameworkCore; //provides functionalities for building API
 
 namespace API.Controllers;
 
-[ApiController] 
-[Route("api/[controller]")] //sets the route to api/users
-
 //injecting the DataContext service to allow Database access 
-public class UsersController(DataContext context): ControllerBase
+public class UsersController(DataContext context): BaseAPIController
 {
     //fetch all users
     //[HttpGet]: Maps this method to an HTTP GET request at api/users.
