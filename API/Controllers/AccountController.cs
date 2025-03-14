@@ -34,6 +34,26 @@ public class AccountController(DataContext context): BaseAPIController
         return user;
     }
 
+    [HttpPost("login")]
+    public async Task<ActionResult<AppUser>> Login(LoginDto logindto)
+    {
+        var user = await context.Users.FirstOrDefaultAsync(x => 
+            x.UserName == logindto.Username.ToLower());
+
+        if(user == null) return Unauthorized("Invalid Username");
+
+        using var hmac = new HMACSHA512(user.PasswordSalt);
+
+        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(logindto.Password));
+
+        for (int i = 0; i < computedHash.Length; i++)
+        {
+            if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
+        }
+
+        return user;
+    }
+
     private async Task<bool> UserExists(string username)
     {
         //this will check if the values are equal keeping case sensitivity in mind
