@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Controllers;
 
 //account controller is deriving BaseAPIController (created to avoid repetition)
+//DataContext service is injected into the AccountController class
 public class AccountController(DataContext context): BaseAPIController
 {
     [HttpPost("register")] //url for this endpoint: account/register
