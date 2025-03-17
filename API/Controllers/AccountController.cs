@@ -4,6 +4,7 @@ using System.Text;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,10 +12,10 @@ namespace API.Controllers;
 
 //account controller is deriving BaseAPIController (created to avoid repetition)
 //DataContext service is injected into the AccountController class
-public class AccountController(DataContext context): BaseAPIController
+public class AccountController(DataContext context, ITokenService tokenService): BaseAPIController
 {
     [HttpPost("register")] //url for this endpoint: account/register
-    public async Task<ActionResult<AppUser>> Register(RegisterDto registerdto){
+    public async Task<ActionResult<UserDto>> Register(RegisterDto registerdto){
 
         if(await UserExists(registerdto.Username)) return BadRequest("Username is taken");
         //HMACSHA512 class is used for secure hashing
@@ -32,11 +33,14 @@ public class AccountController(DataContext context): BaseAPIController
         context.Users.Add(user);
         await context.SaveChangesAsync();
 
-        return user;
+        return new UserDto{
+            Username = user.UserName,
+            Token = tokenService.CreateToken(user)
+        };
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<AppUser>> Login(LoginDto logindto)
+    public async Task<ActionResult<UserDto>> Login(LoginDto logindto)
     {
         var user = await context.Users.FirstOrDefaultAsync(x => 
             x.UserName == logindto.Username.ToLower());
@@ -52,7 +56,11 @@ public class AccountController(DataContext context): BaseAPIController
             if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
         }
 
-        return user;
+        return new UserDto
+        {
+            Username = user.UserName,
+            Token = tokenService.CreateToken(user)
+        };
     }
 
     private async Task<bool> UserExists(string username)

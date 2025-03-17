@@ -127,3 +127,8 @@ D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\runtimes
 D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\obj\Debug\net8.0\API.csproj.AssemblyReference.cache
 D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\obj\Debug\net8.0\API.sourcelink.json
 D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\obj\Debug\net8.0\API.csproj.Up2Date
+D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

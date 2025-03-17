@@ -22,7 +22,6 @@ public class TokenService(IConfiguration config) : ITokenService
         //longer key strengthens security 
         if(tokenKey.Length < 64) throw new Exception("Your token needs to be longer");
         
-        
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
 
         //claims store information about a user inside the token
