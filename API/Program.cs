@@ -1,29 +1,21 @@
-using API.Data;
-using API.Interfaces;
-using API.Services;
-using Microsoft.EntityFrameworkCore;
+using API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-//This adds MVC and Web API controllers
-builder.Services.AddControllers();
-//adding the DataContext class (of type DbContext) in the dependency injection container
-//to configure SQLite database with a connection string from app configuration
-builder.Services.AddDbContext<DataContext>(opt => {
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-//in case the CORS policy blocks the request
-builder.Services.AddCors();
-builder.Services.AddScoped<ITokenService, TokenService>();
-
+builder.Services.AddApplicationServices(builder.Configuration); //application service extension
+builder.Services.AddIdentityServices(builder.Configuration); //Identity Service Extension
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 //allow the request if the request is originated from Angular application running on 4200
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
-    .WithOrigins("http://localhost:4200","https://localhost:4200"));
+    .WithOrigins("http://localhost:4200", "https://localhost:4200"));
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();
