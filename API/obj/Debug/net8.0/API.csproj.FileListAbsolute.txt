@@ -135,3 +135,5 @@ D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\System.I
 D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
 D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\package-lock.json
+D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\package.json
