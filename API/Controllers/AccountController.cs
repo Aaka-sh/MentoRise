@@ -12,40 +12,42 @@ namespace API.Controllers;
 
 //account controller is deriving BaseAPIController (created to avoid repetition)
 //DataContext service is injected into the AccountController class
-public class AccountController(DataContext context, ITokenService tokenService): BaseAPIController
+public class AccountController(DataContext context, ITokenService tokenService) : BaseAPIController
 {
     [HttpPost("register")] //url for this endpoint: account/register
-    public async Task<ActionResult<UserDto>> Register(RegisterDto registerdto){
+    public async Task<ActionResult<UserDto>> Register(RegisterDto registerdto)
+    {
 
-        if(await UserExists(registerdto.Username)) return BadRequest("Username is taken");
+        if (await UserExists(registerdto.Username)) return BadRequest("Username is taken");
+        return Ok();
         //HMACSHA512 class is used for secure hashing
         //using var ensures automatic disposal of the cryptographic object
         //this is used for securely hashing passowrds along with unique salt
-        using var hmac = new HMACSHA512();
+        // using var hmac = new HMACSHA512();
 
-        var user = new AppUser
-        {
-            UserName = registerdto.Username.ToLower(),
-            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerdto.Password)),
-            PasswordSalt = hmac.Key
-        };
+        // var user = new AppUser
+        // {
+        //     UserName = registerdto.Username.ToLower(),
+        //     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerdto.Password)),
+        //     PasswordSalt = hmac.Key
+        // };
 
-        context.Users.Add(user);
-        await context.SaveChangesAsync();
+        // context.Users.Add(user);
+        // await context.SaveChangesAsync();
 
-        return new UserDto{
-            Username = user.UserName,
-            Token = tokenService.CreateToken(user)
-        };
+        // return new UserDto{
+        //     Username = user.UserName,
+        //     Token = tokenService.CreateToken(user)
+        // };
     }
 
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto logindto)
     {
-        var user = await context.Users.FirstOrDefaultAsync(x => 
+        var user = await context.Users.FirstOrDefaultAsync(x =>
             x.UserName == logindto.Username.ToLower());
 
-        if(user == null) return Unauthorized("Invalid Username");
+        if (user == null) return Unauthorized("Invalid Username");
 
         using var hmac = new HMACSHA512(user.PasswordSalt);
 
