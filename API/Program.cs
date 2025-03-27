@@ -1,4 +1,5 @@
 using API.Extensions;
+using API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddIdentityServices(builder.Configuration); //Identity Service 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionMiddleware>(); //Exception Middleware
 //allow the request if the request is originated from Angular application running on 4200
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
     .WithOrigins("http://localhost:4200", "https://localhost:4200"));
