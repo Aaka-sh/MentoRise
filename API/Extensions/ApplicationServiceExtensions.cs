@@ -24,7 +24,7 @@ public static class ApplicationServiceExtensions
         //in case the CORS policy blocks the request
         services.AddCors();
         services.AddScoped<ITokenService, TokenService>();
-
+        services.AddScoped<IUserRepository, UserRepository>();
         return services;
     }
 }
