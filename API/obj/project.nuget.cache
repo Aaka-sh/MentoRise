@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "QC4zxdontSE4EIcHc9JiwfTrxLYvz0OOSJ19/b4rp6KPlQ2nRSiP7ZaECt7hEwI35UCT46Vj/CkNc/x18HpMSg==",
+  "dgSpecHash": "Wi+woIQGZQgLTFf3+hwalYelvIguKnSp69006+EOJhCJK29FDdfLjzsupgeT15LtPwjBpV2X3YAinaD6ZwTNwA==",
   "success": true,
   "projectFilePath": "D:\\TechM\\Practice\\Angular\\MentoRise\\demo\\MentoRise\\API\\API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Akash Goyal\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
     "C:\\Users\\Akash Goyal\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Akash Goyal\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.4\\microsoft.aspnetcore.authentication.jwtbearer.8.0.4.nupkg.sha512",
     "C:\\Users\\Akash Goyal\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",

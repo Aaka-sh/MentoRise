@@ -138,3 +138,4 @@ D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\Microsof
 D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\package-lock.json
 D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\package.json
 D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\Data\UserSeedData.json
+D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\AutoMapper.dll

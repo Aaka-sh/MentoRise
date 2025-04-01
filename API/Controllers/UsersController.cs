@@ -1,35 +1,36 @@
 using System;
 using API.Data; //contains the DataContext class (DbContext)
+using API.DTOs;
 using API.Entities; //contains the API user entity class
+using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; //provides functionalities for building API controllers
 
 namespace API.Controllers;
 
-//injecting the DataContext service to allow Database access 
-public class UsersController(DataContext context): BaseAPIController
+[Authorize] //ensures that only authenticated users can access the endpoints in this controller
+public class UsersController(IUserRepository userRepository) : BaseAPIController
 {
-    [AllowAnonymous]
+
     //fetch all users
     //[HttpGet]: Maps this method to an HTTP GET request at api/users.
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
     {
-        var users = await context.Users.ToListAsync();//retreives all the users from the Users table
-        return users; //returning a list of app user objects
+        var users = await userRepository.GetMembersAsync();
+        return Ok(users); //returns 200 OK with the list of users
     }
 
-
-    [Authorize]
     //fetching a single user
-    [HttpGet("{id:int}")] 
-    public async Task<ActionResult<AppUser>> GetUser(int id)
+    [HttpGet("{username}")]
+    public async Task<ActionResult<MemberDto>> GetUser(string username)
     {
-        //finding user using id (primary key)
-        var user = await context.Users.FindAsync(id);
+        //fetch the user by username using the userRepository
+        var user = await userRepository.GetMemberAsync(username);
         //if when the user is not found, return 404 NotFound 
-        if(user == null) return NotFound();
+        if (user == null) return NotFound();
         //else return the 200 OK HttpResponse
         return user;
     }
