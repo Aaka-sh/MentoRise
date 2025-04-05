@@ -1,3 +1,4 @@
+//services handle shared logic and data fetching and state management
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../_models/user';

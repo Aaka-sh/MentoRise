@@ -1,3 +1,4 @@
+//this interface define the structure of member object
 import { Photo } from './photo';
 
 export interface Member {
