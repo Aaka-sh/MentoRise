@@ -18,7 +18,7 @@ export const routes: Routes = [
   {
     path: '',
     runGuardsAndResolvers: 'always',
-    canActivate: [authGuard],
+    canActivate: [authGuard], //protects the children using authGuard
     children: [
       {
         path: 'members',
@@ -54,6 +54,8 @@ export const routes: Routes = [
     path: 'server-error',
     component: ServerErrorComponent,
   },
+  //the following is called a wildcard route
+  //for unmatched routes, HomeComponent will be rendered
   {
     path: '**',
     component: HomeComponent,

@@ -1,13 +1,18 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+//functional interceptor
+//the error interceptor catches HTTP errors and performs different actions
+//based on the status code of the error
+import { HttpInterceptorFn } from '@angular/common/http'; //functional interceptor for HTTP requests
 import { inject } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router'; //for navigation
 import { ToastrService } from 'ngx-toastr';
-import { catchError, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs'; //catch errors from observable streams
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  //injecting dependencies
   const router = inject(Router);
   const toastr = inject(ToastrService);
 
+  //intercepting the request and passing it to the next handler
   return next(req).pipe(
     catchError((error) => {
       if (error) {
