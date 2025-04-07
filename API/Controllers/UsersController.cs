@@ -1,4 +1,5 @@
 using System;
+using System.Security.Claims;
 using API.Data; //contains the DataContext class (DbContext)
 using API.DTOs;
 using API.Entities; //contains the API user entity class
@@ -11,7 +12,7 @@ using Microsoft.EntityFrameworkCore; //provides functionalities for building API
 namespace API.Controllers;
 
 [Authorize] //ensures that only authenticated users can access the endpoints in this controller
-public class UsersController(IUserRepository userRepository) : BaseAPIController
+public class UsersController(IUserRepository userRepository, IMapper mapper) : BaseAPIController
 {
 
     //fetch all users
@@ -33,5 +34,23 @@ public class UsersController(IUserRepository userRepository) : BaseAPIController
         if (user == null) return NotFound();
         //else return the 200 OK HttpResponse
         return user;
+    }
+
+
+    //update user details
+    [HttpPut]
+    public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
+    {
+        //fetch the user from the repository using the GetUserByUsernameAsync method
+        var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        //if when the user is not found, return 404 NotFound 
+        if (username == null) return BadRequest("No username found in token");
+        var user = await userRepository.GetUserByUsernameAsync(username);
+        if (user == null) return BadRequest("User not found");
+        //else update the user details using AutoMapper
+        mapper.Map(memberUpdateDto, user);
+        //save changes to the database
+        if (await userRepository.SaveAllAsync()) return NoContent(); //returns 204 No Content if successful
+        return BadRequest("Failed to update user"); //returns 400 Bad Request if failed
     }
 }
