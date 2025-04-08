@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Member } from '../../_models/member';
 import { AccountService } from '../../_services/account.service';
-import { MembersService } from '../../_services/members.service';
+import { MembersService } from '../../_services/member.service';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
