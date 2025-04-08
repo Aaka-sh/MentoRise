@@ -139,3 +139,5 @@ D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\package-
 D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\package.json
 D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\Data\UserSeedData.json
 D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\AutoMapper.dll
+D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\CloudinaryDotNet.dll
+D:\TechM\Practice\Angular\MentoRise\demo\MentoRise\API\bin\Debug\net8.0\Newtonsoft.Json.dll
