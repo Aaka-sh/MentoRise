@@ -26,7 +26,7 @@ public static class ApplicationServiceExtensions
         services.AddCors();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IPhotoService, PhotoService>();
+        services.AddScoped<IPhotoService, PhotoService>(); //registering the IPhotoService class as a scoped service
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
         return services;

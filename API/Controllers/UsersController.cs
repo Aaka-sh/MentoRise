@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
@@ -49,8 +48,9 @@ public class UsersController(IUserRepository userRepository, IMapper mapper,
         return BadRequest("Failed to update user"); //returns 400 Bad Request if failed
     }
 
-    [HttpPost("add-photo")]
-    public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
+    [HttpPost("add-photo")] //endpoint for adding a photo
+
+    public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file) //
     {
         var user = await userRepository.GetUserByUsernameAsync(User.GetUsername());
         if (user == null) return BadRequest("Cannot update user");
