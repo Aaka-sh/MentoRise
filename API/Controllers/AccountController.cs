@@ -5,6 +5,7 @@ using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,33 +13,32 @@ namespace API.Controllers;
 
 //account controller is deriving BaseAPIController (created to avoid repetition)
 //DataContext service is injected into the AccountController class
-public class AccountController(DataContext context, ITokenService tokenService) : BaseAPIController
+public class AccountController(DataContext context, ITokenService tokenService, IMapper mapper) : BaseAPIController
 {
     [HttpPost("register")] //url for this endpoint: account/register
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerdto)
     {
 
         if (await UserExists(registerdto.Username)) return BadRequest("Username is taken");
-        return Ok();
+
         //HMACSHA512 class is used for secure hashing
         //using var ensures automatic disposal of the cryptographic object
         //this is used for securely hashing passowrds along with unique salt
-        // using var hmac = new HMACSHA512();
+        using var hmac = new HMACSHA512();
+        var user = mapper.Map<AppUser>(registerdto);
+        user.UserName = registerdto.Username.ToLower();
+        user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerdto.Password));
+        user.PasswordSalt = hmac.Key;
 
-        // var user = new AppUser
-        // {
-        //     UserName = registerdto.Username.ToLower(),
-        //     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerdto.Password)),
-        //     PasswordSalt = hmac.Key
-        // };
+        context.Users.Add(user);
+        await context.SaveChangesAsync();
 
-        // context.Users.Add(user);
-        // await context.SaveChangesAsync();
-
-        // return new UserDto{
-        //     Username = user.UserName,
-        //     Token = tokenService.CreateToken(user)
-        // };
+        return new UserDto
+        {
+            Username = user.UserName,
+            Token = tokenService.CreateToken(user),
+            KnownAs = user.KnownAs
+        };
     }
 
     [HttpPost("login")]
@@ -61,6 +61,7 @@ public class AccountController(DataContext context, ITokenService tokenService) 
         return new UserDto
         {
             Username = user.UserName,
+            KnownAs = user.KnownAs,
             Token = tokenService.CreateToken(user)
         };
     }
