@@ -4,6 +4,8 @@ import { DecimalPipe, NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { FileUploader, FileUploadModule } from 'ng2-file-upload';
 import { AccountService } from '../../_services/account.service';
 import { environment } from '../../../environments/environment';
+import { Photo } from '../../_models/photo';
+import { MembersService } from '../../_services/member.service';
 
 @Component({
   selector: 'app-photo-editor',
@@ -13,6 +15,7 @@ import { environment } from '../../../environments/environment';
 })
 export class PhotoEditorComponent implements OnInit {
   private accountService = inject(AccountService);
+  private memberService = inject(MembersService);
   member = input.required<Member>();
   uploader?: FileUploader;
   hasBaseDropZoneOver = false;
@@ -25,6 +28,37 @@ export class PhotoEditorComponent implements OnInit {
 
   fileOverBase(e: any) {
     this.hasBaseDropZoneOver = e;
+  }
+
+  deletePhoto(photo: Photo) {
+    this.memberService.deletePhoto(photo).subscribe({
+      next: (_) => {
+        const updatedMember = { ...this.member() };
+        updatedMember.photos = updatedMember.photos.filter(
+          (x) => x.id !== photo.id
+        ); //remove the deleted photo from the member's photos array
+        this.memberChange.emit(updatedMember); //emit the updated member object
+      },
+    });
+  }
+
+  setMainPhoto(photo: Photo) {
+    this.memberService.setMainPhoto(photo).subscribe({
+      next: (_) => {
+        const user = this.accountService.currentUser();
+        if (user) {
+          user.photoUrl = photo.url;
+          this.accountService.setCurrentUser(user);
+        }
+        const updatedMember = { ...this.member() };
+        updatedMember.photoUrl = photo.url; //update the member's photoUrl to the new main photo's url
+        updatedMember.photos.forEach((p) => {
+          if (photo.isMain) photo.isMain = false; //set all other photos to not main
+          if (p.id || photo.id) p.isMain = true;
+        });
+        this.memberChange.emit(updatedMember); //emit the updated member object
+      },
+    });
   }
 
   initialiseUploader() {
