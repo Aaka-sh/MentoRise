@@ -13,11 +13,14 @@ import {
   templateUrl: './text-input.component.html',
   styleUrl: './text-input.component.css',
 })
+
+//ControlValueAccessor lets you integrate your custom component with Angular forms just like built-in controls
 export class TextInputComponent implements ControlValueAccessor {
-  label = input<string>('');
-  type = input<string>('text');
+  label = input<string>(''); // Label for the input field
+  type = input<string>('text'); // Type of the input field (text, password, etc.)
+
   constructor(@Self() public ngControl: NgControl) {
-    this.ngControl.valueAccessor = this;
+    this.ngControl.valueAccessor = this; // Set the value accessor to this component
   }
   writeValue(obj: any): void {}
   registerOnChange(fn: any): void {}
