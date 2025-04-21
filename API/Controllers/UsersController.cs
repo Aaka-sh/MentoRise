@@ -1,6 +1,7 @@
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -16,10 +17,11 @@ public class UsersController(IUserRepository userRepository, IMapper mapper,
     //fetch all users
     //[HttpGet]: Maps this method to an HTTP GET request at api/users.
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
-        var users = await userRepository.GetMembersAsync();
-        return Ok(users); //returns 200 OK with the list of users
+        var users = await userRepository.GetMemberAsync(userParams);
+        Response.AddPaginationHeader(users);
+        return Ok(users);
     }
 
     //fetching a single user
