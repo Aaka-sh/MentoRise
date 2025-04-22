@@ -19,6 +19,7 @@ public class UsersController(IUserRepository userRepository, IMapper mapper,
     [HttpGet]
     public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
+        userParams.CurrentUsername = User.GetUsername(); //get the current username from the token
         var users = await userRepository.GetMemberAsync(userParams);
         Response.AddPaginationHeader(users);
         return Ok(users);
