@@ -1,7 +1,7 @@
 [
   {
     "UserName": "Sarah",
-    "Gender": "female",
+    "Gender": "mentor",
     "DateOfBirth": "1989-02-01",
     "KnownAs": "Sarah",
     "Created": "2019-08-09",
@@ -20,7 +20,7 @@
   },
   {
     "UserName": "Goldie",
-    "Gender": "female",
+    "Gender": "mentor",
     "DateOfBirth": "1999-10-04",
     "KnownAs": "Goldie",
     "Created": "2019-05-15",
@@ -39,7 +39,7 @@
   },
   {
     "UserName": "Latoya",
-    "Gender": "female",
+    "Gender": "mentor",
     "DateOfBirth": "1959-11-08",
     "KnownAs": "Latoya",
     "Created": "2019-01-07",
@@ -58,7 +58,7 @@
   },
   {
     "UserName": "Tisha",
-    "Gender": "female",
+    "Gender": "mentee",
     "DateOfBirth": "1953-03-05",
     "KnownAs": "Tisha",
     "Created": "2019-09-12",
@@ -77,7 +77,7 @@
   },
   {
     "UserName": "Josefina",
-    "Gender": "female",
+    "Gender": "mentee",
     "DateOfBirth": "1962-12-28",
     "KnownAs": "Josefina",
     "Created": "2020-05-11",
@@ -97,7 +97,7 @@
 
   {
     "UserName": "Bradshaw",
-    "Gender": "male",
+    "Gender": "mentor",
     "DateOfBirth": "1966-02-15",
     "KnownAs": "Bradshaw",
     "Created": "2019-09-11",
@@ -116,7 +116,7 @@
   },
   {
     "UserName": "Cleveland",
-    "Gender": "male",
+    "Gender": "mentor",
     "DateOfBirth": "1951-12-15",
     "KnownAs": "Cleveland",
     "Created": "2019-07-12",
@@ -135,7 +135,7 @@
   },
   {
     "UserName": "Dotson",
-    "Gender": "male",
+    "Gender": "mentee",
     "DateOfBirth": "1993-05-19",
     "KnownAs": "Dotson",
     "Created": "2019-04-08",
@@ -154,7 +154,7 @@
   },
   {
     "UserName": "Farrell",
-    "Gender": "male",
+    "Gender": "mentee",
     "DateOfBirth": "1980-01-05",
     "KnownAs": "Farrell",
     "Created": "2019-06-09",
@@ -173,7 +173,7 @@
   },
   {
     "UserName": "Sawyer",
-    "Gender": "male",
+    "Gender": "mentor",
     "DateOfBirth": "1984-05-10",
     "KnownAs": "Sawyer",
     "Created": "2020-03-10",
