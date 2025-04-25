@@ -9,8 +9,16 @@ public static class ClaimsPrincipleExtensions
     public static string GetUsername(this ClaimsPrincipal user)
     {
         //throws an exception if the username is not found in the token
-        var username = user.FindFirstValue(ClaimTypes.NameIdentifier)
+        var username = user.FindFirstValue(ClaimTypes.Name)
             ?? throw new Exception("Username not found in token");
         return username;
+    }
+
+    public static int GetUserId(this ClaimsPrincipal user)
+    {
+        //throws an exception if the username is not found in the token
+        var userId = int.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)
+            ?? throw new Exception("Username not found in token"));
+        return userId;
     }
 }

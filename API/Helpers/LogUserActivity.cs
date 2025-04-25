@@ -13,9 +13,9 @@ public class LogUserActivity : IAsyncActionFilter
 
         //checking if the user is authenticated
         if (context.HttpContext.User.Identity?.IsAuthenticated != true) return;
-        var username = resultContext.HttpContext.User.GetUsername(); // Get the username from the token
+        var userId = resultContext.HttpContext.User.GetUserId(); // Get the username from the token
         var repo = resultContext.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
-        var user = await repo.GetUserByUsernameAsync(username); // Fetch the user from the database
+        var user = await repo.GetUserByIdAsync(userId); // Fetch the user from the database
         if (user == null) return; // If the user is not found, do nothing
         user.LastActive = DateTime.UtcNow; // Update the LastActive property to the current UTC time
         await repo.SaveAllAsync(); // Save the changes to the database
