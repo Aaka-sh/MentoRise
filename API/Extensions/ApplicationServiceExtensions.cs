@@ -26,6 +26,7 @@ public static class ApplicationServiceExtensions
         services.AddCors();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ILikesRepository, LikesRepository>(); //registering the ILikesRepository class as a scoped service
         services.AddScoped<IPhotoService, PhotoService>(); //registering the IPhotoService class as a scoped service
         services.AddScoped<LogUserActivity>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
