@@ -1,39 +1,77 @@
+//role of the file
+//this file allows us to interact with the Likes table in the database
+//this repository class allows us to like and unlike users
+//it also helps us to retrieve who a user liked, who liked the user, or mutual likes
 using System;
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Data;
 
-public class LikesRepository : ILikesRepository
+//injecting the DataContext and IMapper classes into the LikesRepository class
+public class LikesRepository(DataContext context, IMapper mapper) : ILikesRepository
 {
-    ///
-    public void AddLike(UserLike userLike)
+    //adding a new UserLike entity to the Likes table in the database
+    public void AddLike(UserLike like)
     {
-        throw new NotImplementedException();
+        context.Likes.Add(like);
     }
-    public void DeleteLike(UserLike userLike)
+    //removing a UserLike entity from the Likes table in the database
+    public void DeleteLike(UserLike like)
     {
-        throw new NotImplementedException();
+        context.Likes.Remove(like);
     }
-    public Task<IEnumerable<int>> GetCurrentUserLikeIds(int currentUserId)
+    //getting the ids of all the users that the current user has liked
+    public async Task<IEnumerable<int>> GetCurrentUserLikeIds(int currentUserId)
     {
-        throw new NotImplementedException();
+        return await context.Likes
+            .Where(x => x.SourceUserId == currentUserId)
+            .Select(x => x.TargetUserId)
+            .ToListAsync();
     }
-    public Task<UserLike?> GetUserLike(int sourceUserId, int targetUserId)
+    //finding a specific "like" relationship between two users
+    public async Task<UserLike?> GetUserLike(int sourceUserId, int targetUserId)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<MemberDto>> GetUserLikes(string predicate, int userId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> SaveChanges()
-    {
-        throw new NotImplementedException();
+        return await context.Likes.FindAsync(sourceUserId, targetUserId);
     }
 
-    ///
+    //getting a list of users that the current user has liked or has been liked by, based on the predicate parameter
+    public async Task<IEnumerable<MemberDto>> GetUserLikes(string predicate, int userId)
+    {
+        var likes = context.Likes.AsQueryable();
+        switch (predicate)
+        {
+            case "liked":
+                return await likes
+                    .Where(x => x.SourceUserId == userId)
+                    .Select(x => x.TargetUser)
+                    .ProjectTo<MemberDto>(mapper.ConfigurationProvider)
+                    .ToListAsync();
+
+            case "likedBy":
+                return await likes
+                    .Where(x => x.TargetUserId == userId)
+                    .Select(x => x.SourceUser)
+                    .ProjectTo<MemberDto>(mapper.ConfigurationProvider)
+                    .ToListAsync();
+            default:
+                var likeIds = await GetCurrentUserLikeIds(userId);
+                return await likes
+                    .Where(x => x.TargetUserId == userId && likeIds.Contains(x.SourceUserId))
+                    .Select(x => x.SourceUser)
+                    .ProjectTo<MemberDto>(mapper.ConfigurationProvider)
+                    .ToListAsync();
+        }
+    }
+
+    //saving changes to the database asynchronously and returning true indicating success or failure
+    public async Task<bool> SaveChanges()
+    {
+        return await context.SaveChangesAsync() > 0;
+    }
+
 }
