@@ -22,4 +22,8 @@ public class AppUser
     public List<Photo> Photos { get; set; } = [];
     public List<UserLike> LikedByUsers { get; set; } = [];
     public List<UserLike> LikedUsers { get; set; } = [];
+
+    //Establishing relationships between AppUser and Message entities
+    public List<Message> MessagesSent { get; set; } = []; //links a user to the list of messages they have sent
+    public List<Message> MessagesReceived { get; set; } = []; //links a user to the list of messages they have received
 }
