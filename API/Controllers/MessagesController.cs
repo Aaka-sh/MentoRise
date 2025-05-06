@@ -4,6 +4,7 @@
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -35,5 +36,16 @@ public class MessagesController(IMessageRepository messageRepository,
         messageRepository.AddMessage(message); //adding the message to the repository
         if (await messageRepository.SaveAllAsync()) return Ok(mapper.Map<MessageDto>(message)); //save to the database and return the message DTO
         return BadRequest("Failed to send message"); //if saving fails, return an error message
+    }
+
+    //GetMessagesForUser function returns a filtered and paginated list of messages for the current user based on the specified message parameters.
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessagesForUser(
+        [FromQuery] MessageParams messageParams)
+    {
+        messageParams.Username = User.GetUsername(); //setting the username for the message params to current user's username so the user sees only their messages
+        var messages = await messageRepository.GetMessagesForUser(messageParams); //fetching messages for the user based on the message params
+        Response.AddPaginationHeader(messages); //adding pagination header to the response
+        return messages; //returning the messages
     }
 }
