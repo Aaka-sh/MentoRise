@@ -1,5 +1,5 @@
-using System;
-using API.Extensions;
+//role of this file
+//AppUser entity class defines the structure of a user object in the application
 
 namespace API.Entities;
 
