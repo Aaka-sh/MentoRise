@@ -14,6 +14,7 @@ namespace API.Controllers;
 public class MessagesController(IMessageRepository messageRepository,
     IUserRepository userRepository, IMapper mapper) : BaseAPIController
 {
+    //Create function creates a new message and saves it to the database.
     [HttpPost] // POST: api/messages
     public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto createMessageDto)
     {
@@ -47,5 +48,12 @@ public class MessagesController(IMessageRepository messageRepository,
         var messages = await messageRepository.GetMessagesForUser(messageParams); //fetching messages for the user based on the message params
         Response.AddPaginationHeader(messages); //adding pagination header to the response
         return messages; //returning the messages
+    }
+
+    [HttpGet("thread/{username}")]
+    public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
+    {
+        var currentUsername = User.GetUsername(); //get the currently logged in user's username
+        return Ok(await messageRepository.GetMessageThread(currentUsername, username)); //fetching the message thread between the current user and the specified user         
     }
 }
