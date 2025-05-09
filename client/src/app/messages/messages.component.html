@@ -31,8 +31,9 @@
 </div>
 
 <!--  -->
-@if (!messageService.pagitatedResult()?.items) {
-<h3>No Messages</h3>
+@if (!messageService.pagitatedResult()?.items ||
+messageService.pagitatedResult()?.items?.length === 0) {
+<h3 class="mt-3">No Messages</h3>
 }@else{
 <table class="table table-hover mt-3" style="cursor: pointer">
   <thead>
@@ -55,7 +56,7 @@
         <div>
           <img
             [src]="
-              container === 'Outbox'
+              isOutbox
                 ? message.recipientPhotoUrl || './assets/user.png'
                 : message.senderPhotoUrl || './assets/user.png'
             "
@@ -70,7 +71,11 @@
         </div>
       </td>
       <td>{{ message.messageSent | timeago }}</td>
-      <td><button class="btn btn-danger">Delete</button></td>
+      <td (click)="$event.stopPropagation()">
+        <button (click)="deleteMessage(message.id)" class="btn btn-danger">
+          Delete
+        </button>
+      </td>
     </tr>
     }
   </tbody>
@@ -78,7 +83,8 @@
 }
 
 <!--  -->
-@if(messageService.pagitatedResult()?.pagination){
+@if(messageService.pagitatedResult()?.pagination &&
+messageService.pagitatedResult()?.pagination?.totalItems! > 0) {
 <div class="d-flex justify-content-center">
   <pagination
     [boundaryLinks]="true"

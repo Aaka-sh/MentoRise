@@ -7,10 +7,12 @@ using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
+[Authorize] //Authorize attribute ensures that only authenticated users can access the endpoints in this controller.
 public class MessagesController(IMessageRepository messageRepository,
     IUserRepository userRepository, IMapper mapper) : BaseAPIController
 {
@@ -55,5 +57,21 @@ public class MessagesController(IMessageRepository messageRepository,
     {
         var currentUsername = User.GetUsername(); //get the currently logged in user's username
         return Ok(await messageRepository.GetMessageThread(currentUsername, username)); //fetching the message thread between the current user and the specified user         
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteMessage(int id)
+    {
+        var username = User.GetUsername(); //getting the currently logged in user's username
+        var message = await messageRepository.GetMessage(id); //fetching the message by id
+        if (message == null) return BadRequest("Can not delete this message"); //if message not found, return a bad request
+        if (message.SenderUsername != username && message.RecipientUsername != username) //if the message is not sent or received by the current user, return a forbidden response
+            return Forbid();
+        if (message.SenderUsername == username) message.SenderDeleted = true; //if the message is sent by the current user, mark it as deleted
+        if (message.RecipientUsername == username) message.RecipientDeleted = true; //if the message is received by the current user, mark it as deleted
+        if (message is { SenderDeleted: true, RecipientDeleted: true }) //if both sender and recipient have deleted the message, remove it from the repository
+            messageRepository.DeleteMessage(message);
+        if (await messageRepository.SaveAllAsync()) return Ok(); //if saving is successful, return an OK response
+        return BadRequest("Failed to delete the message"); //if saving fails, return a bad request
     }
 }
