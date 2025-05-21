@@ -8,14 +8,6 @@
       />
       <div class="card-body">
         <div>
-          <strong>Location:</strong>
-          <p>{{ member.city }}, {{ member.country }}</p>
-        </div>
-        <div>
-          <strong>Experience:</strong>
-          <p>{{ member.age }}</p>
-        </div>
-        <div>
           <strong>Last Active:</strong>
           <p>{{ member.lastActive | timeago }}</p>
         </div>
@@ -41,15 +33,33 @@
         heading="About {{ member.knownAs }}"
         (selectTab)="onTabActivated($event)"
       >
-        <h4>Description</h4>
-        <p>{{ member.introduction }}</p>
-        <h4>I am a</h4>
-        <p>{{ member.gender }}</p>
+        <div class="card-body">
+          <div>
+            <strong>Description: </strong>
+            <p>{{ member.introduction }}</p>
+          </div>
+          <div>
+            <strong>Role: </strong>
+            <p>{{ member.gender }}</p>
+          </div>
+          <div>
+            <strong>Location: </strong>
+            <p>{{ member.city }}, {{ member.country }}</p>
+          </div>
+          <div>
+            <strong>Experience: </strong>
+            <p>{{ member.age }} years</p>
+          </div>
+          <div>
+            <strong>Designation: </strong>
+            <p>{{ member.interests }}</p>
+          </div>
+        </div>
       </tab>
-      <tab heading="Experience" (selectTab)="onTabActivated($event)">
+      <!-- <tab heading="Experience" (selectTab)="onTabActivated($event)">
         <h4>Experienced In</h4>
         <p>{{ member.interests }}</p>
-      </tab>
+      </tab> -->
       <tab
         heading="Photos"
         #photoTab="tab"

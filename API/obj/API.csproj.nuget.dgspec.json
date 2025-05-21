@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\TechM\\Practice\\Angular\\MentoRise\\demo\\MentoRise\\API\\API.csproj": {}
+    "D:\\TechM\\Practice\\Angular\\MentoRise\\demo\\MentoRise\\api\\API.csproj": {}
   },
   "projects": {
-    "D:\\TechM\\Practice\\Angular\\MentoRise\\demo\\MentoRise\\API\\API.csproj": {
+    "D:\\TechM\\Practice\\Angular\\MentoRise\\demo\\MentoRise\\api\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\TechM\\Practice\\Angular\\MentoRise\\demo\\MentoRise\\API\\API.csproj",
+        "projectUniqueName": "D:\\TechM\\Practice\\Angular\\MentoRise\\demo\\MentoRise\\api\\API.csproj",
         "projectName": "API",
-        "projectPath": "D:\\TechM\\Practice\\Angular\\MentoRise\\demo\\MentoRise\\API\\API.csproj",
+        "projectPath": "D:\\TechM\\Practice\\Angular\\MentoRise\\demo\\MentoRise\\api\\API.csproj",
         "packagesPath": "C:\\Users\\Akash Goyal\\.nuget\\packages\\",
-        "outputPath": "D:\\TechM\\Practice\\Angular\\MentoRise\\demo\\MentoRise\\API\\obj\\",
+        "outputPath": "D:\\TechM\\Practice\\Angular\\MentoRise\\demo\\MentoRise\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Akash Goyal\\AppData\\Roaming\\NuGet\\NuGet.Config"
